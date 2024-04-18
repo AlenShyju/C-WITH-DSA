@@ -1,0 +1,64 @@
+#include <iostream>
+#include <cstdlib>
+#include <limits>
+#include <vector>
+
+struct node {
+    int key;
+    struct node* left;
+    struct node* right;
+};
+
+// A utility function to create a new BST node
+struct node* newNode(int item) {
+    struct node* temp = new struct node;
+    temp->key = item;
+    temp->left = temp->right = nullptr;
+    return temp;
+}
+
+// A utility function to do inorder traversal of BST
+void inorder(struct node* root) {
+    if (root != nullptr) {
+        inorder(root->left);
+        std::cout << root->key << " ";
+        inorder(root->right);
+    }
+}
+
+// A utility function to insert a new node with given key in BST
+struct node* insert(struct node* node, int key) {
+    if (node == nullptr)
+        return newNode(key);
+
+    if (key < node->key)
+        node->left = insert(node->left, key);
+    else if (key > node->key)
+        node->right = insert(node->right, key);
+
+    return node;
+}
+
+int main() {
+    /* Let us create the following BST:
+            50
+           / \
+          30 70
+         / \ / \
+        20 40 60 80 */
+    struct node* root = nullptr;
+    root = insert(root, 50);
+    insert(root, 30);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 70);
+    insert(root, 60);
+    insert(root, 80);
+
+    // Print inorder traversal of the BST
+    inorder(root);
+
+    return 0;
+}
+
+
