@@ -1,0 +1,64 @@
+//write a code to evaluvate postfix expression (user input at runtime )  
+
+
+#include <iostream>
+#include <stack>
+#include <cmath>
+using namespace std;
+
+int precedence(char op) {
+    switch (op) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        default:
+            return -1;
+    }
+}
+
+double applyOperation(char op, double a, double b) {
+    switch (op) {
+        case '+':
+            return b + a;
+        case '-':
+            return b - a;
+        case '*':
+            return b * a;
+        case '/':
+            return b / a;
+        default:
+            throw std::invalid_argument("Invalid operation");
+    }
+}
+
+double evaluatePostfixExpression(const std::string& expression) {
+    stack<double> operands;
+    for (const char c : expression) {
+        if (isdigit(c)) {
+            operands.push(c - '0');
+        } else {
+            double right = operands.top();
+            operands.pop();
+            double left = operands.top();
+            operands.pop();
+            operands.push(applyOperation(c, left, right));
+        }
+    }
+    return operands.top();
+}
+
+int main() {
+    cout << "Enter the postfix expression: ";
+    string expression;
+    cin >> expression;
+    try {
+        double result = evaluatePostfixExpression(expression);
+        cout << "Result: " << result << std::endl;
+    } catch (const std::invalid_argument& e) {
+        cerr << "Error: " << e.what() << std::endl;
+    }
+    return 0;
+}
