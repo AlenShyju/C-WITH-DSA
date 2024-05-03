@@ -1,0 +1,71 @@
+                                    write a code for tree  traversal in preorder, postorder and level
+
+#include <iostream>
+using namespace std;
+
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int data) : val(data), left(nullptr), right(nullptr) {}
+};
+
+void inorder(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    inorder(root->left);
+    cout << root->val << " ";
+    inorder(root->right);
+}
+
+void postorder(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->val << " ";
+}
+
+void preorder(TreeNode* root) {
+    if (root == nullptr)
+        return;
+    cout << root->val << " ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+int main() {
+    TreeNode* t = new TreeNode(7);
+    t->left = new TreeNode(1);
+    t->left->left = new TreeNode(0);
+    t->left->right = new TreeNode(3);
+    t->left->right->left = new TreeNode(2);
+    t->left->right->right = new TreeNode(5);
+    t->left->right->right->left = new TreeNode(4);
+    t->left->right->right->right = new TreeNode(6);
+    t->right = new TreeNode(9);
+    t->right->left = new TreeNode(8);
+    t->right->right = new TreeNode(10);
+
+    cout << "Inorder traversal of the above tree is:\n";
+    inorder(t);
+    cout << "\nPostorder traversal of the above tree is:\n";
+    postorder(t);
+    cout << "\nPreorder traversal of the above tree is:\n";
+    preorder(t);
+
+    // Freeing memory
+    delete t->right->right;
+    delete t->right->left;
+    delete t->right;
+    delete t->left->right->right->right;
+    delete t->left->right->right->left;
+    delete t->left->right->right;
+    delete t->left->right;
+    delete t->left->left;
+    delete t->left;
+    delete t;
+
+    return 0;
+}
